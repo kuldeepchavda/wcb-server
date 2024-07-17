@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
+dotenv.config();
 import assert from "assert";
 
-dotenv.config();
 
 const {
   PORT,

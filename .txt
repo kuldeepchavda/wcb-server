@@ -19,3 +19,88 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+
+
+
+multer
+
+
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import { initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import multer from "multer";
+const app = express();
+import path from "path";
+import slugify from "@sindresorhus/slugify";
+// Firestore setup
+const { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, SENDER_ID, APP_ID } =
+  process.env;
+
+const firebaseConfig = {
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: SENDER_ID,
+  appId: APP_ID,
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const firestore = getStorage(firebaseApp);
+// Multer setup
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
+
+// Routes
+app.post("/products", upload.single("image"), async (req, res, next) => {
+  const file = req.file;
+  try {
+    const extension = path.extname(file.originalname);
+    const filename =
+      new Date().getTime() + "-" + slugify(file.originalname) + extension;
+    console.log(filename);
+    const imageRef = ref(firestore, filename);
+    const snapshot = await uploadBytes(imageRef, file.buffer);
+    const imageURL = await getDownloadURL(snapshot.ref);
+    res.status(200).send(imageURL);
+  } catch (error) {
+    return console.log(error);
+  }
+});
+
+// Error handling
+app.use((error, req, res, next) => {
+  res
+    .status(error.status || 500)
+    .json({ message: error.message || "Server error" });
+});
+const port = 3000;
+app.listen(port, () => {
+  console.log(`app listening on port ${port}`);
+});
+
+
+const  getImageDownloadURL = async (file)=>{
+try {
+  const extension = path.extname(file.originalname);
+  const filename =
+    new Date().getTime() + "-" + slugify(file.originalname) + extension;
+  console.log(filename);
+  const imageRef = ref(firestore, filename);
+  const snapshot = await uploadBytes(imageRef, file.buffer);
+  const imageURL = await getDownloadURL(snapshot.ref);
+  res.status(200).send(imageURL);
+} catch (error) {
+  return console.log(error);
+}
+
+}
