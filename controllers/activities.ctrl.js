@@ -6,7 +6,7 @@ const trainingAndWorkshopImageUpload = async (req, res) => {
   try {
     const { subfield_name } = req.params;
     const files = req.files;
-
+    const {description } = req.body;
     if (!files) {
       return res.status(400).json({ data: "no files" });
     }
@@ -16,8 +16,7 @@ const trainingAndWorkshopImageUpload = async (req, res) => {
       files.map((file) => getImageDownloadURL("testingAt5", file))
     );
 
-    const description =
-      "This is a description and it will contain at least 200 characters";
+    
     // const uid = uuidv4(); // Assuming uid is passed in the request body
     const newActivity = new Activity({
       subfield_name,
