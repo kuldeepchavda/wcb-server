@@ -15,6 +15,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use("/testing",(req,res)=>{res.status(200).send("This server belongs to WCB Foundation, Designed By Kanishk Chaudhary And Backend made by Kuldeep Chavda.")})
 app.use("/activities", activityRoutes);
 app.use("/research", researchRoutes);
 app.use("/current_scholars", curretScholarRouter);
