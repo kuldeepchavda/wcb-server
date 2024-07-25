@@ -1,5 +1,10 @@
 import dotenv from "dotenv"
 dotenv.config()
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import express from "express";
 import cors from "cors";
 import activityRoutes from "./routes/activities.routes.js";
@@ -11,17 +16,22 @@ import collaboratorsRoutes from "./routes/collaborators.routes.js"
 import publicationRoutes from "./routes/publications.routes.js"
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import { join } from "node:path";
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use("/testing",(req,res)=>{res.status(200).send("This server belongs to WCB Foundation, Designed By Kanishk Chaudhary And Backend made by Kuldeep Chavda.")})
+app.get("/introduction", (req, res) => {
+  res.sendFile(join(__dirname, "index.html"));
+});
 app.use("/activities", activityRoutes);
 app.use("/research", researchRoutes);
 app.use("/current_scholars", curretScholarRouter);
 app.use("/master_students", masterScholarsRouter);
 app.use("/collaborators",collaboratorsRoutes)
 app.use("/publications",publicationRoutes)
+
 mongoose
   .connect(process.env.MONGODB_URL)
   .then((res) => {
