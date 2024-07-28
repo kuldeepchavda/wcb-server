@@ -6,9 +6,6 @@ router
   .route("/:subfield_name/create")
   .post(researchControllers.createResearchData);
 router
-  .route("/:subfield_name/create")
-  .post(researchControllers.createResearchData);
-router
   .route("/:subfield_name/get")
   .get(researchControllers.getDataOfParticularField);
 
