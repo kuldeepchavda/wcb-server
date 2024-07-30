@@ -2,7 +2,7 @@ import ResearchData from "../models/Research.js";
 
 const getAllData = async (req,res)=>{
   const response = await ResearchData.find()
-  res.send(response)
+  res.status(200).send(response)
 }
 
 const createResearchData = async (req, res) => {
@@ -10,7 +10,7 @@ const createResearchData = async (req, res) => {
     subfield_name: req.params.subfield_name,
     ...req.body,
   });
-  res.send(response)
+  res.status(200).send(response)
 };
 
 const getDataOfParticularField = async (req, res) => {

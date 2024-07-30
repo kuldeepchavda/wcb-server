@@ -1,23 +1,12 @@
 import getImageDownloadURL from "../imageUpload.js";
-import Activity from "../models/Activities.js";
-// training and workshop
+import Activity from "../models/Activities.js"; 
+
+
 // create
 const trainingAndWorkshopImageUpload = async (req, res) => {
   try {
     const { subfield_name } = req.params;
-    const files = req.files;
-    const {description } = req.body;
-    if (!files) {
-      return res.status(400).json({ data: "no files" });
-    }
-
-    // Assume getImageDownloadURL is a function that takes a bucket name and file and returns a URL
-    const imageURLs = await Promise.all(
-      files.map((file) => getImageDownloadURL("testingAt5", file))
-    );
-
-    
-    // const uid = uuidv4(); // Assuming uid is passed in the request body
+    const {description ,imageURLs} = req.body;    
     const newActivity = new Activity({
       subfield_name,
       imageURLs,
@@ -25,7 +14,7 @@ const trainingAndWorkshopImageUpload = async (req, res) => {
     });
     
     const savedActivity = await newActivity.save();
-    console.log(savedActivity);
+    // console.log(savedActivity);
     res.status(200).json({ savedActivity });
   } catch (error) {
     console.log(error);
@@ -57,21 +46,16 @@ const getActivityById = async (req, res) => {
 const updateActivity = async (req, res) => {
   try {
     const activity = await Activity.findById(req.params.id);
-    if (!activity)
+    if (!activity){
       return res.status(404).json({ message: "Activity not found" });
-
+}
     if (req.body.description) {
       activity.description = req.body.description;
     }
-    if (req.files) {
-      console.log(req.files)
-      const URLs =await Promise.all(
-      req.files.map((file) => getImageDownloadURL("testingAt5/", file))
-    );
+    if (req.body.imageURLs) {
+      console.log(req.files) 
   activity.imageURLs = URLs
   }
-
-
     const updatedActivity = await activity.save();
     res.status(200).json(updatedActivity);
   } catch (err) {

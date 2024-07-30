@@ -1,10 +1,9 @@
-import Collaborator from "../models/Collaborators.js"
+import Collaborator from "../models/Collaborators.js";
 
-import getImageDownloadURL from "../imageUpload.js";
-const getAll=async(req,res)=>{
-const response = await Collaborator.find()
-res.send(response)
-}
+const getAll = async (req, res) => {
+  const response = await Collaborator.find();
+  res.send(response);
+};
 const getCollaboratorById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -20,22 +19,30 @@ const getCollaboratorById = async (req, res) => {
 
 const createCollaborator = async (req, res) => {
   try {
-    const file = req.file;
-    const dir = "collaborators";
+    const { imageURL, imageId, imageName, href } = req.body;
 
-    const { imageURL, imageId, imageName } = await getImageDownloadURL(
-      dir,
-      file
-    );
-
-    const newCollaborator = new Collaborator({ imageURL, imageId, imageName });
+    const newCollaborator = new Collaborator({
+      imageURL,
+      imageId,
+      imageName,
+      href,
+    });
     await newCollaborator.save();
     res.status(201).json(newCollaborator);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
- 
+
+const updateCollaboratorById = async (req, res) => {
+  const { id } = req.params;
+  const response = await Collaborator.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: req.body,
+    }
+  );
+};
 
 const deleteCollaborator = async (req, res) => {
   try {
@@ -50,5 +57,10 @@ const deleteCollaborator = async (req, res) => {
   }
 };
 
-
-export default {getCollaboratorById,createCollaborator,deleteCollaborator,getAll}
+export default {
+  getCollaboratorById,
+  createCollaborator,
+  deleteCollaborator,
+  updateCollaboratorById,
+  getAll,
+};

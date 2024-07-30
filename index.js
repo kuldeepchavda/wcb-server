@@ -17,7 +17,7 @@ import publicationRoutes from "./routes/publications.routes.js"
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import { join } from "node:path";
-
+import ContactRouters from "./routes/contactUsMessages.routes.js"
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -31,6 +31,8 @@ app.use("/current_scholars", curretScholarRouter);
 app.use("/master_students", masterScholarsRouter);
 app.use("/collaborators",collaboratorsRoutes)
 app.use("/publications",publicationRoutes)
+app.use("/contactus",ContactRouters)
+
 
 mongoose
   .connect(process.env.MONGODB_URL)
