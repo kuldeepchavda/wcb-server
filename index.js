@@ -14,6 +14,7 @@ import masterScholarsRouter from "./routes/master-students.routes.js"
 import researchRoutes from "./routes/research.routes.js";
 import collaboratorsRoutes from "./routes/collaborators.routes.js"
 import publicationRoutes from "./routes/publications.routes.js"
+import HomeRoutes from "./routes/home.routes.js"
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import { join } from "node:path";
@@ -32,6 +33,7 @@ app.use("/master_students", masterScholarsRouter);
 app.use("/collaborators",collaboratorsRoutes)
 app.use("/publications",publicationRoutes)
 app.use("/contactus",ContactRouters)
+app.use("/home", HomeRoutes);
 
 
 mongoose

@@ -13,6 +13,12 @@ const imageSchema = new mongoose.Schema({
 });
 
 const activitySchema = new mongoose.Schema({
+  title: {
+    type: String,
+  },
+  bgImage: {
+    type: String,
+  },
   subfield_name: { type: String },
   imageURLs: [imageSchema],
   description: {
@@ -22,4 +28,3 @@ const activitySchema = new mongoose.Schema({
 
 const Activities = mongoose.model("wcb-Activities", activitySchema);
 export default Activities;
- 
