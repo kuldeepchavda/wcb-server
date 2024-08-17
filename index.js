@@ -27,11 +27,11 @@ app.get("/introduction", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
 });
 app.use("/activities", activityRoutes);
-app.use("/research", researchRoutes);
-app.use("/current_scholars", curretScholarRouter);
+app.use("/research", researchRoutes);    
+app.use("/current_scholars", curretScholarRouter);//done
 app.use("/master_students", masterScholarsRouter);
-app.use("/collaborators",collaboratorsRoutes)
-app.use("/publications",publicationRoutes)
+app.use("/collaborators",collaboratorsRoutes)//done
+app.use("/publications",publicationRoutes)//done
 app.use("/contactus",ContactRouters)
 app.use("/home", HomeRoutes);
 

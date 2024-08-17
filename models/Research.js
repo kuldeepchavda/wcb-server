@@ -1,4 +1,5 @@
-import mongoose  from "mongoose";
+import { types } from "@babel/core";
+import mongoose from "mongoose";
 const imageSchema = new mongoose.Schema({
   imageId: {
     type: String,
@@ -11,11 +12,14 @@ const imageSchema = new mongoose.Schema({
   },
 });
 const researchSchema = new mongoose.Schema({
-  images:{
-type:[imageSchema]
+  images: {
+    type: [imageSchema],
   },
-  bgImage:{
-    type:String
+  bgImage: {
+    type: String,
+  },
+  imageURL: {
+    type: String,
   },
   subfield_name: {
     type: String,
@@ -31,4 +35,4 @@ type:[imageSchema]
   year: { type: String },
 });
 
-export default mongoose.model("research-testings",researchSchema)
+export default mongoose.model("research-testings", researchSchema);

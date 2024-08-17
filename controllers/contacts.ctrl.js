@@ -2,7 +2,7 @@ import Contacts from "../models/ContactUsMessages.js"
 const createMessage = async (req, res) => {
   const response = await Contacts.create({ ...req.body });
   if (response) {
-    res.send("message sent successfully");
+    res.send(response);
   } else {
     res.send("Error sending the message");
   }
@@ -18,7 +18,7 @@ const getAllTheMessages = async (req, res) => {
 };
 
 const getMessageById = async (req, res) => {
-  const response = await Contacts.getById(req.params.id);
+  const response = await Contacts.findOne({"_id":req.params.id});
   if (response) {
     res.send(response);
   } else {
