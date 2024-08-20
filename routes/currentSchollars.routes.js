@@ -1,18 +1,16 @@
-import curentScholarControllers from "../controllers/currentScholars.ctrl.js"
-import express from "express"
-const router = express.Router()
+import curentScholarControllers from "../controllers/currentScholars.ctrl.js";
+import express from "express";
+import adminMiddleware from "../middleware/adminMiddleware.js";
 
-router
-  .route("/create")
-  .post(curentScholarControllers.create);
-router
-  .route("/all")
-  .get(curentScholarControllers.getAllData);
-router.route("/get/:id").get(curentScholarControllers.getById)
+const router = express.Router();
+
+router.route("/create").post(adminMiddleware, curentScholarControllers.create);
+router.route("/all").get(curentScholarControllers.getAllData);
+router.route("/get/:id").get(curentScholarControllers.getById);
 router
   .route("/update/:id")
-  .put(curentScholarControllers.updateById);
+  .put(adminMiddleware, curentScholarControllers.updateById);
 router
   .route("/delete/:id")
-  .delete( curentScholarControllers.findAndDelete);
-export default router
+  .delete(adminMiddleware, curentScholarControllers.findAndDelete);
+export default router;
