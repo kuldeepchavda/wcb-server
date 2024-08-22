@@ -6,7 +6,7 @@ const trainingAndWorkshopImageUpload = async (req, res) => {
   try {
     const { subfield_name } = req.params;
     const { description, imageURLs } = req.body;
-    const newActivity = new Activity({ ...req.body ,subfield_name});
+    const newActivity = new Activity({ ...req.body, subfield_name });
 
     const savedActivity = await newActivity.save();
     // console.log(savedActivity);
@@ -40,19 +40,31 @@ const getActivityById = async (req, res) => {
 // update by id
 const updateActivity = async (req, res) => {
   try {
-    const activity = await Activity.findById(req.params.id);
-    if (!activity) {
-      return res.status(404).json({ message: "Activity not found" });
-    }
-    if (req.body.description) {
-      activity.description = req.body.description;
-    }
-    if (req.body.imageURLs) {
-      console.log(req.files);
-      activity.imageURLs = URLs;
-    }
-    const updatedActivity = await activity.save();
-    res.status(200).json(updatedActivity);
+    const activity = await Activity.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: req.body,
+      }
+    );
+    // if (!activity) {
+    //   return res.status(404).json({ message: "Activity not found" });
+    // }
+    // if (req.body.description) {
+    //   activity.description = req.body.description;
+    // }
+    // if (req.body.title) {
+    //   activity.title = req.body.title;
+    // }
+    // if (req.body.bgImage) {
+    //   activity.bgImage = req.body.bgImage;
+    // }
+    // if (req.body.imageURLs) {
+    //   console.log(req.files);
+    //   activity.imageURLs = URLs;
+    // }
+
+    // const updatedActivity = await activity.save();
+    res.status(200).json(activity);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
