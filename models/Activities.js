@@ -19,12 +19,14 @@ const activitySchema = new mongoose.Schema({
   bgImage: {
     type: String,
   },
-  subfield_name: { type: String },
-  imageURLs: [imageSchema],
+  subfield_name: 
+  { type: String },
+  imageURLs:
+   [imageSchema],
   description: {
     type: String,
   },
 });
 
-const Activities = mongoose.model("wcb-Activities", activitySchema);
+const Activities = mongoose.model("wcb-Actjgg", activitySchema);
 export default Activities;

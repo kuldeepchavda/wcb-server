@@ -6,11 +6,7 @@ const trainingAndWorkshopImageUpload = async (req, res) => {
   try {
     const { subfield_name } = req.params;
     const { description, imageURLs } = req.body;
-    const newActivity = new Activity({
-      subfield_name,
-      imageURLs,
-      description,
-    });
+    const newActivity = new Activity({ ...req.body ,subfield_name});
 
     const savedActivity = await newActivity.save();
     // console.log(savedActivity);
