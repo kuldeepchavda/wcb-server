@@ -19,7 +19,7 @@ const getPublicationById = async (req, res) => {
 const createPublication = async (req, res) => {
   try {
     const { publication } = req.body;
-    const newPublication = new Publication({ publication });
+    const newPublication = new Publication({ ...req.body});
     await newPublication.save();
     res.status(201).json(newPublication);
   } catch (error) {
@@ -30,10 +30,10 @@ const createPublication = async (req, res) => {
 const updatePublication = async (req, res) => {
   try {
     const { id } = req.params;
-    const { publication } = req.body;
+    const { publication ,link} = req.body;
     const updatedPublication = await Publication.findByIdAndUpdate(
       id,
-      { publication },
+      { publication ,link},
       { new: true }
     );
     if (!updatedPublication) {
