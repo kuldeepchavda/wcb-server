@@ -11,7 +11,6 @@ const whatWeDoItemSchema = new mongoose.Schema(
     },
     description: { type: String},
   }
-  //   { _id: false }
 );
 
 const whatWeDoSchema = new mongoose.Schema(

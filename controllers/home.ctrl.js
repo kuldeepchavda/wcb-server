@@ -5,10 +5,7 @@ const create = async (req, res) => {
     const { videoUrl, bgUrl, description, items } = req.body;
 
     const newEntry = new HomeData({
-      videoUrl,
-      bgUrl,
-      description,
-      items,
+      ...req.body
     });
 
     await newEntry.save();
@@ -32,8 +29,7 @@ const getAll = async (req, res) => {
 // Get a single entry by ID
 const getById = async (req, res) => {
   try {
-    const entry = await HomeData.find({id:req.params.id});
-    console.log(entry)
+    const entry = await HomeData.find({_id:req.params.id});
     if (!entry) {
       return res
         .status(404)
@@ -51,7 +47,7 @@ const update = async (req, res) => {
     const { videoUrl, bgUrl, description, items } = req.body;
 
     const updatedEntry = await HomeData.findOneAndUpdate(
-      { id: req.params.id },
+      { _id: req.params.id },
       { videoUrl, bgUrl, description, items },
       { new: true }
     );
@@ -71,8 +67,8 @@ const update = async (req, res) => {
 // Delete an entry by ID
 const deleteData = async (req, res) => {
   try {
-    const deletedEntry = await HomeData.findByIdAndDelete({
-      id: req.params.id,
+    const deletedEntry = await HomeData.findOneAndDelete({
+      _id: req.params.id,
     });
 
     if (!deletedEntry) {
@@ -87,13 +83,54 @@ const deleteData = async (req, res) => {
   }
 };
 
+// const updateActivityById = async (req, res) => {
+//   try {
+//     const { entryId, itemId } = req.params;
+
+//     // Find the entry by ID
+//     const entry = await HomeData.find({_id:entryId}); // Use findById or findOne instead of find
+//    console.log(entry[0].items)
+//     if (!entry) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Entry not found" });
+//     }
+
+//     // Find the index of the item to be updated
+//     const itemIndex = entry[0].items.findIndex(
+//       (item) => item._id.toString() === itemId
+//     );
+//     console.log(itemIndex)
+
+//     if (itemIndex === -1) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Item not found" });
+//     }
+//     // Update the item at the found index with the provided data
+// entry[0].items[itemIndex] = {
+//   ...entry[0].items[itemIndex], // Keep existing fields
+//   ...req.body, // Overwrite with new data
+//   // _id: entry[0].items[itemIndex]._id, // Explicitly preserve the original id
+// };
+//     console.log(entry[0].items[itemIndex]);
+
+//     // Save the updated entry back to the database
+//     await entry[0].save();
+//     console.log(entry[0])
+//     res.status(200).json({ success: "true updated", data: entry.items });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error });
+//   }
+// }; 
 const updateActivityById = async (req, res) => {
   try {
     const { entryId, itemId } = req.params;
 
     // Find the entry by ID
-    const entry = await HomeData.find({id:entryId}); // Use findById or findOne instead of find
-  //  console.log(entry.items)
+    const entry = await HomeData.findById(entryId);
+    console.log(entry.items);
+
     if (!entry) {
       return res
         .status(404)
@@ -101,31 +138,33 @@ const updateActivityById = async (req, res) => {
     }
 
     // Find the index of the item to be updated
-    const itemIndex = entry[0].items.findIndex((item) => item.id === itemId);
-    
-
+    const itemIndex = entry.items.findIndex(
+      (item) => item.id === itemId // Convert ObjectId to string for comparison
+    );
+    console.log(itemIndex);
 
     if (itemIndex === -1) {
       return res
         .status(404)
         .json({ success: false, message: "Item not found" });
     }
+
     // Update the item at the found index with the provided data
-entry[0].items[itemIndex] = {
-  ...entry[0].items[itemIndex], // Keep existing fields
-  ...req.body, // Overwrite with new data
-  id: entry[0].items[itemIndex].id, // Explicitly preserve the original id
-};
-    console.log(entry[0].items[itemIndex]);
+    entry.items[itemIndex] = {
+      ...entry.items[itemIndex], // Keep existing fields
+      ...req.body, // Overwrite with new data
+      // _id: entry.items[itemIndex]._id, // Explicitly preserve the original id
+    };
+    console.log(entry.items[itemIndex]);
 
     // Save the updated entry back to the database
-    await entry[0].save();
-    console.log(entry[0])
+    await entry.save();
+    console.log(entry);
     res.status(200).json({ success: "true updated", data: entry.items });
   } catch (error) {
-    res.status(500).json({ success: false, message: error });
+    res.status(500).json({ success: false, message: error.message });
   }
-}; 
+};
 export default {
   create,
   getAll,
