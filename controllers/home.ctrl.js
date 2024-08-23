@@ -50,7 +50,7 @@ const update = async (req, res) => {
   try {
     const { videoUrl, bgUrl, description, items } = req.body;
 
-    const updatedEntry = await HomeData.findByIdAndUpdate(
+    const updatedEntry = await HomeData.findOneAndUpdate(
       { id: req.params.id },
       { videoUrl, bgUrl, description, items },
       { new: true }
@@ -93,6 +93,7 @@ const updateActivityById = async (req, res) => {
 
     // Find the entry by ID
     const entry = await HomeData.find({id:entryId}); // Use findById or findOne instead of find
+  //  console.log(entry.items)
     if (!entry) {
       return res
         .status(404)
@@ -110,20 +111,21 @@ const updateActivityById = async (req, res) => {
         .json({ success: false, message: "Item not found" });
     }
     // Update the item at the found index with the provided data
-    entry[0].items[itemIndex] = {
-      ...entry[0].items[itemIndex], // Keep existing fields
-      ...req.body, // Overwrite with new data
-    };
+entry[0].items[itemIndex] = {
+  ...entry[0].items[itemIndex], // Keep existing fields
+  ...req.body, // Overwrite with new data
+  id: entry[0].items[itemIndex].id, // Explicitly preserve the original id
+};
     console.log(entry[0].items[itemIndex]);
 
     // Save the updated entry back to the database
     await entry[0].save();
     console.log(entry[0])
-    res.status(200).json({ success: true, data: entry.items[itemIndex] });
+    res.status(200).json({ success: "true updated", data: entry.items });
   } catch (error) {
     res.status(500).json({ success: false, message: error });
   }
-};
+}; 
 export default {
   create,
   getAll,
