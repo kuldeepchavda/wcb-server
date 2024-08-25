@@ -3,7 +3,7 @@ import  { v4 as uuidv4 } from "uuid";
 
 const whatWeDoItemSchema = new mongoose.Schema(
   {
-    id: { type: String, default: uuidv4 },
+    // id: { type: String, default: uuidv4 },
     title: { type: String},
     button: {
       buttonText: { type: String},
@@ -13,9 +13,9 @@ const whatWeDoItemSchema = new mongoose.Schema(
   }
 );
 
-const whatWeDoSchema = new mongoose.Schema(
+const HomeData = new mongoose.Schema(
   {
-    id: { type: String, default: uuidv4 },
+    // id: { type: String, default: uuidv4 },
     videoUrl: { type: String},
     bgUrl: { type: String},
     description: { type: String},
@@ -24,5 +24,5 @@ const whatWeDoSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Home-wcb", whatWeDoSchema);
-// HomeData
+export default mongoose.model("Home-testin3", HomeData);
+// export default mongoose.model("Home-wcb", HomeData);

@@ -1,15 +1,34 @@
 import express from "express";
 const router = express.Router();
-import whatWeDoController from "../controllers/home.ctrl.js"
+import homeDataController from "../controllers/home.ctrl.js";
 import adminMiddleware from "../middleware/adminMiddleware.js";
 
-router.post("/create",adminMiddleware, whatWeDoController.create);
-router.get("/getall", whatWeDoController.getAll);
-router.get("/get/:id", whatWeDoController.getById);
-router.put("/update/:id",adminMiddleware, whatWeDoController.update);
-router.put(
-  "/update/item/:entryId/:itemId",adminMiddleware,
-  whatWeDoController.updateActivityById
+// Routes for HomeData CRUD operations
+router.post("/create", adminMiddleware, homeDataController.createHomeData);
+router.get("/getall", homeDataController.getAllHomeData);
+router.get("/get/:id", homeDataController.getHomeDataById);
+router.put("/update/:id", adminMiddleware, homeDataController.updateHomeData);
+router.delete(
+  "/delete/:id",
+  adminMiddleware,
+  homeDataController.deleteHomeData
 );
-router.delete("/delete/:id",adminMiddleware, whatWeDoController.deleteData);
-export default router
+
+// Routes for CRUD operations on items within the whatWeDo array
+router.post(
+  "/create/item/:id",
+  adminMiddleware,
+  homeDataController.addItemToHomeData
+);
+router.put(
+  "/update/item/:id/:itemId",
+  adminMiddleware,
+  homeDataController.updateItemInHomeData
+);
+router.delete(
+  "/delete/item/:id/:itemId",
+  adminMiddleware,
+  homeDataController.deleteItemFromHomeData
+);
+
+export default router;
