@@ -57,10 +57,23 @@ const deleteCollaborator = async (req, res) => {
   }
 };
 
+const getCollaboratorsByRole = async (req, res) => {
+  try {
+    const { role } = req.params;
+    const response = await Collaborator.find({ role: role });
+    if (response) {
+      res.status(200).json({ success: true, data: response });
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, data: error.message });
+  }
+};
+
 export default {
   getCollaboratorById,
   createCollaborator,
   deleteCollaborator,
   updateCollaboratorById,
   getAll,
+  getCollaboratorsByRole,
 };

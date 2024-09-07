@@ -11,6 +11,7 @@ router.put(
   adminMiddleware,
   collaboratorCtrl.updateCollaboratorById
 );
+router.route("/role/:role").get(collaboratorCtrl.getCollaboratorsByRole);
 router.delete(
   "/delete/:id",
   adminMiddleware,

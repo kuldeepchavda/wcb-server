@@ -5,6 +5,9 @@ const collaboratorSchema = new mongoose.Schema({
   imageId: { type: String, required: true },
   imageName: { type: String, required: true },
   href: { type: String },
+  role:{
+    type:String,
+  }
 });
 
 const Collaborator = mongoose.model("collaborator", collaboratorSchema);
