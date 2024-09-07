@@ -23,7 +23,13 @@ import ContactRouters from "./routes/contactUsMessages.routes.js";
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+const corsOptions = {
+  origin: ["http://localhost:5000", "https://wcb-lab-front.vercel.app"], // Replace with your frontend domain(s)
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 app.get("/introduction", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
 });
