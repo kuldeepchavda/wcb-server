@@ -24,7 +24,12 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: ["http://localhost:3000","http://localhost:5000", "https://wcb-lab-front.vercel.app"], // Replace with your frontend domain(s)
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5000",
+    "https://wcb-lab-front.vercel.app",
+    "http://wcb-lab-admin.vercel.app",
+  ], // Replace with your frontend domain(s)
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
 };

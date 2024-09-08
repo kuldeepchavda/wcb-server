@@ -11,7 +11,7 @@ const getCollaboratorById = async (req, res) => {
     if (!collaborator) {
       return res.status(404).json({ message: "Collaborator not found" });
     }
-    res.json(collaborator);
+    res.send(collaborator);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -28,20 +28,25 @@ const createCollaborator = async (req, res) => {
       href,
     });
     await newCollaborator.save();
-    res.status(201).json(newCollaborator);
+    res.send(newCollaborator);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
 const updateCollaboratorById = async (req, res) => {
-  const { id } = req.params;
+  try{
+    const { id } = req.params;
   const response = await Collaborator.findByIdAndUpdate(
     { _id: id },
     {
       $set: req.body,
     }
   );
+  res.send("updated successfully")
+  }catch(err){
+res.send("could not update this.")
+  }
 };
 
 const deleteCollaborator = async (req, res) => {
@@ -51,7 +56,7 @@ const deleteCollaborator = async (req, res) => {
     if (!deletedCollaborator) {
       return res.status(404).json({ message: "Collaborator not found" });
     }
-    res.json({ message: "Collaborator deleted" });
+    res.send("Collaborator deleted");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -62,7 +67,7 @@ const getCollaboratorsByRole = async (req, res) => {
     const { role } = req.params;
     const response = await Collaborator.find({ role: role });
     if (response) {
-      res.status(200).json({ success: true, data: response });
+      res.send(response);
     }
   } catch (error) {
     res.status(400).json({ success: false, data: error.message });
