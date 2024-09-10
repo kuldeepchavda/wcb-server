@@ -29,7 +29,8 @@ const corsOptions = {
     "http://localhost:5000",
     "https://wcb-lab-front.vercel.app",
     "http://wcb-lab-admin.vercel.app",
-  ], // Replace with your frontend domain(s)
+    "http://slothbear.wcbresearch.org",
+  ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
 };
