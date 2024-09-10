@@ -30,6 +30,7 @@ const corsOptions = {
     "https://wcb-lab-front.vercel.app",
     "http://wcb-lab-admin.vercel.app",
     "http://slothbear.wcbresearch.org",
+    "https://slothbear.wcbresearch.org",
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
