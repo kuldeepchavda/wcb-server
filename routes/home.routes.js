@@ -31,4 +31,22 @@ router.delete(
   homeDataController.deleteItemFromHomeData
 );
 
+//operations for carousel 
+
+router.post(
+  "/create/carousel/:id",
+  adminMiddleware,
+  homeDataController.addImageToCarousel
+);
+router.put(
+  "/update/carousel/:id/:imageId",
+  adminMiddleware,
+  homeDataController.updateImageInCarousel
+);
+router.delete(
+  "/delete/carousel/:id/:imageId",
+  adminMiddleware,
+  homeDataController.deleteImageFromCarousel
+);
+
 export default router;

@@ -143,7 +143,6 @@ const deleteItemFromHomeData = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Item not found" });
     }
-
     entry.items.splice(itemIndex, 1);
     await entry.save();
 
@@ -152,7 +151,86 @@ const deleteItemFromHomeData = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+//operations for carousel
+const addImageToCarousel = async (req, res) => {
+  try {
+    const entry = await HomeData.findById(req.params.id);
+    if (!entry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Entry not found" });
+    }
 
+    entry.carousel.push(req.body);
+    await entry.save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+const updateImageInCarousel = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    const entry = await HomeData.find({_id:id});
+    if (!entry) {
+      return res
+      .status(404)
+      .json({ success: false, message: "Entry not found" });
+    }
+    
+    // console.log(entry[0].carousel);
+    const imageIndex = entry[0].carousel.findIndex(
+      (imageData) => imageData._id.toString() === imageId
+    );
+    // console.log(imageIndex);
+
+    if (imageIndex === -1) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found" });
+    }
+console.log("reached")
+    entry[0].carousel[imageIndex] = { ...entry[0].carousel[imageIndex], ...req.body };
+    await entry[0].save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+const deleteImageFromCarousel = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    const entry = await HomeData.find({ _id: id });
+
+    if (!entry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Entry not found" });
+    }
+
+   const imageIndex = entry[0].carousel.findIndex(
+     (imageData) => imageData._id.toString() === imageId
+   );
+console.log(imageIndex)
+    if (imageIndex === -1) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found" });
+    }
+    entry[0].carousel.splice(imageIndex, 1);
+    await entry[0].save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 export default {
   createHomeData,
   getAllHomeData,
@@ -162,4 +240,9 @@ export default {
   addItemToHomeData,
   updateItemInHomeData,
   deleteItemFromHomeData,
+
+  // carousel
+  addImageToCarousel,
+  updateImageInCarousel,
+  deleteImageFromCarousel
 };
