@@ -48,5 +48,40 @@ router.delete(
   adminMiddleware,
   homeDataController.deleteImageFromCarousel
 );
+// testimonials
+router.post(
+  "/create/testimonials/:id",
+  adminMiddleware,
+  homeDataController.addTestimonials
+);
+router.put(
+  "/update/testimonials/:id/:imageId",
+  adminMiddleware,
+  homeDataController.updateTestimonials
+);
+router.delete(
+  "/delete/testimonials/:id/:imageId",
+  adminMiddleware,
+  homeDataController.deleteTestimonials
+);
+
+// photo gallery
+
+
+router.post(
+  "/create/photo_gallery/:id",
+  adminMiddleware,
+  homeDataController.addPhotoGallery
+);
+router.put(
+  "/update/photo_gallery/:id/:imageId",
+  adminMiddleware,
+  homeDataController.updatePhotoGallery
+);
+router.delete(
+  "/delete/photo_gallery/:id/:imageId",
+  adminMiddleware,
+  homeDataController.deletePhotoGallery
+);
 
 export default router;

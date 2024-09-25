@@ -231,6 +231,173 @@ console.log(imageIndex)
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+// controllers for testimonials
+
+const addTestimonials = async (req, res) => {
+  try {
+    const entry = await HomeData.findById(req.params.id);
+    if (!entry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Entry not found" });
+    }
+
+    entry.testimonials.push(req.body);
+    await entry.save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
+const updateTestimonials = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    const entry = await HomeData.find({ _id: id });
+    if (!entry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Entry not found" });
+    }
+
+    // console.log(entry[0].carousel);
+    const imageIndex = entry[0].testimonials.findIndex(
+      (imageData) => imageData._id.toString() === imageId
+    );
+    // console.log(imageIndex);
+
+    if (imageIndex === -1) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found" });
+    }
+    console.log("reached");
+    entry[0].testimonials[imageIndex] = {
+      ...entry[0].testimonials[imageIndex],
+      ...req.body,
+    };
+    await entry[0].save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+const deleteTestimonials = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    const entry = await HomeData.find({ _id: id });
+
+    if (!entry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Entry not found" });
+    }
+
+    const imageIndex = entry[0].testimonials.findIndex(
+      (imageData) => imageData._id.toString() === imageId
+    );
+    // console.log(imageIndex);
+    if (imageIndex === -1) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found" });
+    }
+    entry[0].testimonials.splice(imageIndex, 1);
+    await entry[0].save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// photo gallery
+const addPhotoGallery = async (req, res) => {
+  try {
+    const entry = await HomeData.findById(req.params.id);
+    if (!entry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Entry not found" });
+    }
+
+    entry.photoGallery.push(req.body);
+    await entry.save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const updatePhotoGallery = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    const entry = await HomeData.find({ _id: id });
+    if (!entry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Entry not found" });
+    }
+
+    // console.log(entry[0].carousel);
+    const imageIndex = entry[0].photoGallery.findIndex(
+      (imageData) => imageData._id.toString() === imageId
+    );
+    // console.log(imageIndex);
+
+    if (imageIndex === -1) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found" });
+    }
+    console.log("reached");
+    entry[0].photoGallery[imageIndex] = {
+      ...entry[0].photoGallery[imageIndex],
+      ...req.body,
+    };
+    await entry[0].save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const deletePhotoGallery = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    const entry = await HomeData.find({ _id: id });
+
+    if (!entry) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Entry not found" });
+    }
+
+    const imageIndex = entry[0].photoGallery.findIndex(
+      (imageData) => imageData._id.toString() === imageId
+    );
+    // console.log(imageIndex);
+    if (imageIndex === -1) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found" });
+    }
+    entry[0].photoGallery.splice(imageIndex, 1);
+    await entry[0].save();
+
+    return res.status(200).json({ success: true, data: entry.items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 export default {
   createHomeData,
   getAllHomeData,
@@ -244,5 +411,14 @@ export default {
   // carousel
   addImageToCarousel,
   updateImageInCarousel,
-  deleteImageFromCarousel
+  deleteImageFromCarousel,
+  // testimonials
+  addTestimonials,
+  updateTestimonials,
+  deleteTestimonials,
+
+  // photo gallery
+  addPhotoGallery,
+  updatePhotoGallery,
+  deletePhotoGallery
 };
