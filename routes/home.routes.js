@@ -66,8 +66,6 @@ router.delete(
 );
 
 // photo gallery
-
-
 router.post(
   "/create/photo_gallery/:id",
   adminMiddleware,

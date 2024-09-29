@@ -16,6 +16,7 @@ import collaboratorsRoutes from "./routes/collaborators.routes.js";
 import publicationRoutes from "./routes/publications.routes.js";
 import HomeRoutes from "./routes/home.routes.js";
 import AdminRoutes from "./routes/admin.routes.js";
+import WorkWithUsRoutes from "./routes/workWithUs.routes.js"
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import { join } from "node:path";
@@ -49,7 +50,7 @@ app.use("/publications", publicationRoutes); //done
 app.use("/contactus", ContactRouters);
 app.use("/home", HomeRoutes);
 app.use("/auth", AdminRoutes);
-
+app.use("/work_with_us",WorkWithUsRoutes);
 mongoose
   .connect(process.env.MONGODB_URL)
   .then((res) => {
